@@ -6,7 +6,7 @@ Bitcoin infrastructure. Indexes, protocols, live systems.
 
 ---
 
-`Python 3.12` · `Bitcoin Core` · `SQLite` · `mmap` · `systemd` · `Linux`
+`Bitcoin Core` · `SQLite` · `mmap` · `systemd` · `Linux` · `1 Gbit`
 
 I build the layer under a wallet, an explorer or an analytics product: own
 chainstate indexes instead of third-party APIs, so answers come in microseconds

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nyx Byte — Bitcoin infrastructure</title>
-<meta name="description" content="Indexes, protocols and live systems for blockchain data. Python, SQLite, mmap, systemd.">
+<meta name="description" content="Indexes, protocols and live systems for blockchain data. SQLite, mmap, systemd, Linux.">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <style>
 :root{
@@ -106,7 +106,7 @@ footer a{color:var(--dim);border-color:var(--line)}
     Infrastructure for blockchain data. Own indexes instead of third-party APIs —
     answers in microseconds instead of minutes, and they keep working when the API does not.
   </p>
-  <div class="stack">Python 3.12 · Bitcoin Core 32 · SQLite · mmap · systemd · Linux</div>
+  <div class="stack">Bitcoin Core 32 · SQLite · mmap · systemd · Linux · 1 Gbit</div>
 </header>
 
 <section class="wrap">
@@ -143,7 +143,7 @@ footer a{color:var(--dim);border-color:var(--line)}
 <section class="wrap">
   <h2>Engineering</h2>
   <ul class="clean">
-    <li><b>Index on disk, not in RAM.</b> 55M Python sets cost 5–6 GB. Eight bytes per record sorted and memory-mapped costs 430 MB and leaves the resident set almost untouched.</li>
+    <li><b>Index on disk, not in RAM.</b> Holding 55M records as in-memory sets costs 5–6 GB. Eight bytes per record sorted and memory-mapped costs 430 MB and leaves the resident set almost untouched.</li>
     <li><b>Binary protocol instead of JSON.</b> 33 bytes per key in, one byte per key out. A JSON envelope at tens of thousands of keys per second costs more than the lookup itself.</li>
     <li><b>Own address decoders.</b> bech32, base58check, checksum verification, 34 µs per address, no external dependency.</li>
     <li><b>Two-level verification.</b> The fast index works on a truncated key; a candidate is confirmed with an exact query before anything is reported.</li>
@@ -162,27 +162,27 @@ footer a{color:var(--dim);border-color:var(--line)}
 </section>
 
 <section class="wrap">
-  <h2>Code</h2>
+  <h2>Work</h2>
   <div class="projects">
     <div class="proj">
-      <h3>balance_server.py</h3>
-      <p>Read-only index service. HTTP for humans, a binary protocol for machines, memory-mapped index behind both.</p>
-      <div class="meta">Python</div>
+      <h3>Index service</h3>
+      <p>Read-only lookup layer. HTTP for humans, a binary protocol for machines, a memory-mapped index behind both.</p>
+      <div class="meta">SQLite · mmap</div>
     </div>
     <div class="proj">
-      <h3>utxo_targets.py</h3>
-      <p>Chainstate to compact index. Classifies raw scriptPubKeys and writes a flat sorted file with no runtime dependency.</p>
-      <div class="meta">Python</div>
-    </div>
-    <div class="proj">
-      <h3>build_index.py</h3>
-      <p>Aggregates the UTXO dump into one row per funded scriptPubKey. <code>WITHOUT ROWID</code>, BLOB keys, one-shot build.</p>
+      <h3>Chainstate to index</h3>
+      <p>Classifies raw scriptPubKeys and writes a flat sorted file with no runtime dependency at all.</p>
       <div class="meta">SQLite</div>
     </div>
     <div class="proj">
-      <h3>btcguard</h3>
-      <p>Watchdog for a node that is alive but isolated. Judges peers by what they delivered and restarts only on real idleness.</p>
-      <div class="meta">Bash · systemd</div>
+      <h3>Aggregation</h3>
+      <p>Collapses the UTXO dump into one row per funded scriptPubKey. <code>WITHOUT ROWID</code>, BLOB keys, one-shot build.</p>
+      <div class="meta">SQLite</div>
+    </div>
+    <div class="proj">
+      <h3>Node watchdog</h3>
+      <p>For a node that is alive but isolated. Judges peers by what they delivered and restarts only on real idleness.</p>
+      <div class="meta">systemd</div>
     </div>
   </div>
 </section>
